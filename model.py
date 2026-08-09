@@ -1,4 +1,5 @@
-from sqlalchemy import Column, Integer, String, Boolean, Float
+from sqlalchemy import Column, Integer, String, Boolean, Float, DateTime
+from datetime import datetime
 from database import Base
 
 class Item(Base):
@@ -9,5 +10,16 @@ class Item(Base):
     description = Column(String, index=True)
     price = Column(Float)
     is_offer = Column(Boolean, default=False)
+
+
+class Task(Base):
+    __tablename__ = "tasks"
+
+    id = Column(Integer, primary_key=True, index=True)
+    title = Column(String, index=True)
+    description = Column(String, index=True)
+    is_done = Column(Boolean, default=False)
+    created_at = Column(DateTime, default=datetime.now)
+
 
 
