@@ -1,5 +1,5 @@
 from fastapi import APIRouter, HTTPException, Depends
-from pydantic import BaseModel
+from pydantic import BaseModel, ConfigDict
 import model
 from database import get_db
 from sqlalchemy.orm import Session
@@ -7,12 +7,21 @@ from sqlalchemy.orm import Session
 router = APIRouter(prefix="/items", tags=["Items"])
 
 class Item(BaseModel):
+    model_config = ConfigDict(from_attributes=True)
     name: str
     description: str | None = None
     price: float
     is_offer: bool | None = None
 
-@router.post("/")
+class ItemResponseCreate(BaseModel):
+    model_config = ConfigDict(from_attributes=True)
+    id: int
+    name: str
+    description: str | None = None
+    price: float
+    is_offer: bool | None = None
+
+@router.post("/", response_model=ItemResponseCreate)
 def create_item(item: Item, db: Session = Depends(get_db)):
     db_item = model.Item(name=item.name, description=item.description, price=item.price, is_offer=item.is_offer)
     db.add(db_item)
@@ -20,19 +29,19 @@ def create_item(item: Item, db: Session = Depends(get_db)):
     db.refresh(db_item)
     return {"message": "Item created successfully", "item": db_item}
 
-@router.get("/")
+@router.get("/", response_model=list[ItemResponseCreate])
 def get_all_items(db: Session = Depends(get_db)):
     items = db.query(model.Item).all()
     return items
 
-@router.get("/{item_id}")
+@router.get("/{item_id}", response_model=ItemResponseCreate)
 def get_one_item(item_id: int, db: Session = Depends(get_db)):
     item = db.query(model.Item).filter(model.Item.id == item_id).first()
     if item is None:
         raise HTTPException(status_code=404, detail="Item not found")
     return item
 
-@router.put("/{item_id}")
+@router.put("/{item_id}", response_model=ItemResponseCreate)
 def update_item(item_id: int, item: Item, db: Session = Depends(get_db)):
     db_item = db.query(model.Item).filter(model.Item.id == item_id).first()
     if db_item is None:
@@ -43,7 +52,7 @@ def update_item(item_id: int, item: Item, db: Session = Depends(get_db)):
     db.refresh(db_item)
     return db_item
 
-@router.delete("/{item_id}")
+@router.delete("/{item_id}", response_model=ItemResponseCreate)
 def delete_item(item_id: int, db: Session = Depends(get_db)):
     db_item = db.query(model.Item).filter(model.Item.id == item_id).first()
     if db_item is None:
