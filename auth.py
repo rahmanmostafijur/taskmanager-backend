@@ -11,9 +11,9 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-SECRET_KEY = os.getenv("567f839768e8962bcd58701f9dc63932c6521d1b01174ff551bf6f23ed73820")
-ALGORITHM =  os.getenv("HS256")
-ACCESS_TOKEN_EXPIRE_MINUTES = int(os.getenv("ACCESS_TOKEN_EXPIRE_MINUTES")) if os.getenv("ACCESS_TOKEN_EXPIRE_MINUTES") else 30
+SECRET_KEY = os.getenv("SECRET_KEY")
+ALGORITHM =  os.getenv("ALGORITHM")
+ACCESS_TOKEN_EXPIRE_MINUTES = int(os.getenv("ACCESS_TOKEN_EXPIRE_MINUTES"))
 
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/users/login")
 
