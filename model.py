@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, String, Boolean, Float, DateTime
+from sqlalchemy import Column, Integer, String, Boolean, Float, DateTime, ForeignKey 
 from datetime import datetime
 from database import Base
 
@@ -20,6 +20,7 @@ class Task(Base):
     description = Column(String, index=True)
     is_done = Column(Boolean, default=False)
     created_at = Column(DateTime, default=datetime.now)
+    user_id = Column(Integer, ForeignKey("users.id"), nullable=False)
 
 
 class User(Base):
