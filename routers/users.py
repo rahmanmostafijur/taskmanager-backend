@@ -1,7 +1,7 @@
 from fastapi import APIRouter, HTTPException, Depends
 from fastapi.security import OAuth2PasswordRequestForm
 from sqlalchemy.orm import Session
-from pydantic import BaseModel, ConfigDict
+from pydantic import BaseModel, ConfigDict, Field
 from datetime import datetime
 import model
 from database import get_db
@@ -10,8 +10,8 @@ from auth import hash_password, verify_password, create_access_token, get_curren
 router = APIRouter(prefix="/users",tags=["Users"])
 
 class UserCreate(BaseModel):
-    username:str
-    password:str
+    username:str = Field(min_length=6, max_length=50)
+    password:str = Field(min_length=8, max_length=32)
 
 class UserResponse(BaseModel):
     model_config = ConfigDict(from_attributes=True)

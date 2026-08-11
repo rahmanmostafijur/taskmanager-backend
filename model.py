@@ -21,6 +21,7 @@ class Task(Base):
     is_done = Column(Boolean, default=False)
     created_at = Column(DateTime, default=datetime.now)
     user_id = Column(Integer, ForeignKey("users.id"), nullable=False)
+    priority = Column(String, default="medium")
 
 
 class User(Base):

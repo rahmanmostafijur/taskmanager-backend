@@ -21,13 +21,13 @@ class TaskResponseCreate(BaseModel):
     is_done: bool | None = False
     created_at: datetime
 
-@router.post("/", status_code=201)
+@router.post("/", status_code=201, response_model=TaskResponseCreate)
 def create_task(task: TaskCreate, db: Session = Depends(get_db), current_user: model.User = Depends(get_current_user)):
     db_task = model.Task(title=task.title, description=task.description, is_done=task.is_done, user_id=current_user.id)
     db.add(db_task)
     db.commit()
     db.refresh(db_task)
-    return {"message": "Task created successfully", "task": db_task}
+    return db_task
 
 @router.get("/", response_model=list[TaskResponseCreate])
 def get_all_tasks(db: Session = Depends(get_db), current_user: model.User = Depends(get_current_user)):
