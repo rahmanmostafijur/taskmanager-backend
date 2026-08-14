@@ -1,0 +1,15 @@
+<button onclick="getTasks()">Get Tasks</button>
+
+<script>
+const TOKEN = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJtb3N0YWZpaiIsImV4cCI6MTc4NjUyNTQzM30.3H5jTwW9zuZMIu_XcJb7q_d4Jdc5qpN7x6NMgSlYL_0";
+
+async function getTasks() {
+  const response = await fetch("https://taskmanager-backend-tclq.onrender.com/tasks/", {
+    headers: {
+      "Authorization": "Bearer " + TOKEN
+    }
+  });
+  const data = await response.json();
+  console.log(data);
+}
+</script>
