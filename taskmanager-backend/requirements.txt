@@ -23,7 +23,6 @@ decorator==5.2.1
 defusedxml==0.7.1
 distro==1.9.0
 durationpy==0.10
-ecdsa==0.19.2
 executing==2.2.1
 fastapi==0.136.0
 fastembed==0.8.0
@@ -124,7 +123,6 @@ pytest==9.1.1
 python-dateutil==2.9.0.post0
 python-docx==1.2.0
 python-dotenv==1.2.2
-python-jose==3.5.0
 python-multipart==0.0.26
 python-pptx==1.0.2
 PyYAML==6.0.3
@@ -136,7 +134,6 @@ requests-oauthlib==2.0.0
 requests-toolbelt==1.0.0
 rich==15.0.0
 rpds-py==2026.6.3
-rsa==4.9.1
 seaborn==0.13.2
 shellingham==1.5.4
 six==1.17.0
