@@ -115,6 +115,7 @@ pydantic==2.13.2
 pydantic-settings==2.15.0
 pydantic_core==2.46.2
 Pygments==2.19.2
+PyJWT==2.13.0
 pyparsing==3.3.2
 PyPDF2==3.0.1
 PyPika==0.51.1
