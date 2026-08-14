@@ -25,6 +25,9 @@ jobs:
         working-directory: taskmanager-backend
         env:
           DATABASE_URL: postgresql://user:pass@localhost/testdb
+          ACCESS_TOKEN_EXPIRE_MINUTES: "30"
+          SECRET_KEY: dummy-secret-for-ci
+          ALGORITHM: HS256
         run: pytest
 
       - name: Build Docker image
