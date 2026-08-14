@@ -15,10 +15,11 @@ A multi-user task management REST API built with FastAPI and PostgreSQL. Users r
 - **SQLAlchemy** — ORM
 - **Alembic** — database migrations
 - **Pydantic v2** — request validation and response serialization
-- **python-jose** — JWT creation and verification
+- **pyJWT** — JWT creation and verification
 - **bcrypt** — password hashing
 - **Docker & Docker Compose** — containerization
 - **GitHub Actions** — CI
+- **pytest** — API tests via FastAPI's TestClient
 
 ---
 
@@ -51,7 +52,7 @@ A multi-user task management REST API built with FastAPI and PostgreSQL. Users r
 
 ```bash
 git clone https://github.com/rahmanmostafijur/taskmanager-backend.git
-cd taskmanager-backend
+cd taskmanager-backend/taskmanager-backend
 cp .env.example .env
 ```
 
@@ -112,6 +113,16 @@ All task endpoints require an `Authorization: Bearer <token>` header and operate
 `/items/` endpoints remain from an earlier stage of the project and are unauthenticated. They are not part of the task management feature set.
 
 ---
+
+## Tests
+
+    cd taskmanager-backend
+    pytest
+
+Three tests cover the authentication boundary: the root endpoint responds,
+`/tasks/` rejects unauthenticated requests with `401`, and a malformed token
+is rejected rather than causing a server error. They run on every push via
+GitHub Actions before the Docker image is built.
 
 ## Example
 
