@@ -112,13 +112,12 @@ function App() {
   }, [token])
 
   return (
-    <div>
+    <div className="container">
       <h1>Task Manager</h1>
 
       {token ? (
         <div>
           <h2>My Tasks</h2>
-          <button onClick={logout}>Logout</button>
           <input
             value={newTitle}
             onChange={(e) => setNewTitle(e.target.value)}
@@ -133,13 +132,22 @@ function App() {
                   checked={task.is_done}
                   onChange={() => toggleTask(task)}
                 />
-                <span style={{ textDecoration: task.is_done ? 'line-through' : 'none' }}>
+                <span
+                  className="task-title"
+                  style={{ textDecoration: task.is_done ? 'line-through' : 'none' }}
+                >
                   {task.title}
                 </span>
-                <button onClick={() => deleteTask(task.id)}>Delete</button>
+                <button
+                  className="delete-btn"
+                  onClick={() => deleteTask(task.id)}
+                >
+                  Delete
+                </button>
               </li>
             ))}
           </ul>
+          <button className="logout-btn" onClick={logout}>Logout</button>
         </div>
       ) : (
         <div>
@@ -156,7 +164,7 @@ function App() {
           />
           <button onClick={login}>Login</button>
           <button onClick={register}>Register</button>
-          {error && <p style={{ color: 'red' }}>{error}</p>}
+          {error && <p className="error">{error}</p>}
         </div>
       )}
     </div>
