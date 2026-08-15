@@ -17,6 +17,8 @@ function App() {
   const [error, setError] = useState("")
   const [tasks, setTasks] = useState<Task[]>([])
   const [newTitle, setNewTitle] = useState("")
+  const [editingId, setEditingId] = useState<number | null>(null)
+  const [editTitle, setEditTitle] = useState("")
 
   async function login() {
     const response = await fetch(API + '/users/login', {
@@ -105,6 +107,22 @@ function App() {
     fetchTasks()
   }
 
+  async function saveEdit(task: Task) {
+    await fetch(API + '/tasks/' + task.id, {
+      method: 'PUT',
+      headers: {
+        'Authorization': 'Bearer ' + token,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        title: editTitle,
+        is_done: task.is_done
+      })
+    })
+    setEditingId(null)
+    fetchTasks()
+  }
+
   useEffect(() => {
     if (token) {
       fetchTasks()
@@ -132,18 +150,28 @@ function App() {
                   checked={task.is_done}
                   onChange={() => toggleTask(task)}
                 />
-                <span
-                  className="task-title"
-                  style={{ textDecoration: task.is_done ? 'line-through' : 'none' }}
-                >
-                  {task.title}
-                </span>
-                <button
-                  className="delete-btn"
-                  onClick={() => deleteTask(task.id)}
-                >
-                  Delete
-                </button>
+
+                {editingId === task.id ? (
+                  <>
+                    <input
+                      value={editTitle}
+                      onChange={(e) => setEditTitle(e.target.value)}
+                    />
+                    <button onClick={() => saveEdit(task)}>Save</button>
+                  </>
+                ) : (
+                  <>
+                    <span
+                      className="task-title"
+                      style={{ textDecoration: task.is_done ? 'line-through' : 'none' }}
+                    >
+                      {task.title}
+                    </span>
+                    <button onClick={() => { setEditingId(task.id); setEditTitle(task.title) }}>Edit</button>
+                  </>
+                )}
+
+                <button className="delete-btn" onClick={() => deleteTask(task.id)}>Delete</button>
               </li>
             ))}
           </ul>
